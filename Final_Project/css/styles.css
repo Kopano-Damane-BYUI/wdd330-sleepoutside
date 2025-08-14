@@ -1,0 +1,791 @@
+/* ========================================
+   🌐 Global Resets & Root Variables
+======================================== */
+:root {
+    --color-primary: #A30000;
+    --color-dark: #1C1C1C;
+    --color-light: #F7F7F7;
+    --color-white: #ffffff;
+    --color-gray: #666;
+    --color-border: #e0e0e0;
+
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
+
+    --transition-fast: 0.3s ease;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    line-height: 1.6;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+.welcome {
+    border-bottom: 2px solid var(--color-primary);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* ========================================
+   🧱 Layout Structure
+======================================== */
+.layout-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sidebar Navigation (mobile-first) */
+.sidebar {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.sidebar .logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sidebar .logo h1 {
+    font-size: 1.2rem;
+    font-family: var(--font-heading);
+    color: var(--color-white);
+}
+
+#menu-toggle {
+    background: none;
+    border: none;
+    color: var(--color-white);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Site nav */
+.site-nav {
+    display: none;
+    flex-direction: column;
+    background-color: var(--color-dark);
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.site-nav.open {
+    display: flex;
+}
+
+.site-nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-link {
+    color: var(--color-white);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    display: block;
+    border-left: 4px solid transparent;
+    transition: all var(--transition-fast);
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    background-color: var(--color-primary);
+}
+
+.nav-link.active {
+    background-color: var(--color-primary);
+    border-left: 4px solid var(--color-white);
+}
+
+@media (max-width: 767px) {
+    .site-nav {
+        display: none;
+        position: relative;
+        top: 1rem;
+        width: 100%;
+    }
+
+    .site-nav.open {
+        display: flex;
+    }
+
+    .sidebar {
+        flex-direction: column;
+        position: relative;
+    }
+
+    #menu-toggle {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.2rem;
+        font-size: 1.5rem;
+    }
+}
+
+/* ========================================
+   📄 Main Content
+======================================== */
+.main-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.welcome h2 {
+    font-family: var(--font-heading);
+    color: var(--color-primary);
+    font-size: 1.5rem;
+}
+
+/* ========================================
+   📊 Dashboard Cards
+======================================== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.card {
+    background-color: var(--color-white);
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform var(--transition-fast);
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-card h3 {
+    font-size: 1rem;
+    color: var(--color-primary);
+    margin-bottom: 0.25rem;
+}
+
+.stat-card p {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.progress-bar {
+    height: 16px;
+    background-color: #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+}
+
+.progress-fill {
+    background-color: var(--color-primary);
+    height: 100%;
+    transition: width 0.6s ease-in-out;
+}
+
+/* ========================================
+   🧾 Training Log Table
+======================================== */
+.training-log table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+}
+
+.training-log th,
+.training-log td {
+    padding: 0.75rem;
+    border: 1px solid var(--color-border);
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.training-log th {
+    background-color: #f0f0f0;
+    color: var(--color-dark);
+}
+
+/* ========================================
+   📺 Video Learning Section (Updated)
+======================================== */
+#youtube-videos section {
+    margin-bottom: 2rem;
+}
+
+#youtube-videos section h3 {
+    font-family: var(--font-heading);
+    color: var(--color-primary);
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Horizontal scroll container for videos */
+#youtube-videos .video-row {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+#youtube-videos .video-row::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Edge */
+}
+
+/* Video card styling */
+#youtube-videos .video-preview {
+    flex: 0 0 240px;
+    /* fixed width */
+    background-color: var(--color-white);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: background-color var(--transition-fast);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 260px;
+    /* fixed height for uniform cards */
+}
+
+#youtube-videos .video-preview img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+#youtube-videos .video-preview p {
+    font-weight: 600;
+    color: var(--color-dark);
+    padding: 0.5rem 0.75rem 0 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.3;
+    flex-grow: 1;
+}
+
+#youtube-videos .video-preview small {
+    display: block;
+    padding: 0 0.75rem 0.75rem 0.75rem;
+    font-size: 0.85rem;
+    color: var(--color-gray);
+}
+
+/* Hover effect */
+#youtube-videos .video-preview:hover {
+    background-color: #f0f0f0;
+}
+
+/* ========================================
+   💬 Quote Section
+======================================== */
+.motivational-quote blockquote {
+    font-style: italic;
+    color: black;
+    border-left: 4px solid var(--color-primary);
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+}
+
+.motivational-quote cite {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+    text-align: right;
+    color: var(--color-dark);
+}
+
+/* ========================================
+   📱 Responsive Layout (Desktop)
+======================================== */
+@media (min-width: 768px) {
+    .layout-wrapper {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        width: 220px;
+        min-height: 90vh;
+        background-color: var(--color-dark);
+        position: sticky;
+        top: 0;
+    }
+
+    #menu-toggle {
+        display: none;
+    }
+
+    .site-nav {
+        display: flex !important;
+        margin-top: 2rem;
+    }
+
+    .site-nav ul {
+        flex-direction: column;
+    }
+
+    .main-content {
+        flex: 1;
+        padding: 2rem;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Override older video-row to be horizontal with scroll on desktop too */
+    #youtube-videos .video-row {
+        flex-wrap: nowrap;
+    }
+
+    #youtube-videos .video-preview {
+        min-width: 200px;
+    }
+}
+
+/* ========================================
+   🦽 Accessibility
+======================================== */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+
+    *::before,
+
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ========================================
+   👣 Footer
+======================================== */
+.site-footer {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.875rem;
+}
+
+/* ==================================
+   LOG FORM
+=====================================*/
+
+.progress-bar-container {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 10px;
+    height: 20px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--color-primary, #a30000);
+    transition: width 0.5s ease-in-out;
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+table th,
+table td {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+table thead {
+    background-color: var(--color-primary-light, #e06060);
+    color: white;
+}
+
+/* Ensure readable fonts & touch-friendly size */
+input,
+select,
+textarea,
+button {
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.75rem;
+    width: 100%;
+}
+
+/* Focus styles for accessibility */
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Ensure form elements stack nicely with separation */
+#training-log-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#training-log-form label,
+#training-log-form input,
+#training-log-form select,
+#training-log-form textarea {
+    display: block;
+    width: 100%;
+}
+
+button, #training-log-form button[type="submit"] {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color var(--transition-fast);
+}
+
+#training-log-form button[type="submit"]:hover,
+#training-log-form button[type="submit"]:focus {
+    background-color: #7a0000;
+}
+
+/* ========  ========== */
+
+/* Style the fieldset and legend */
+fieldset {
+    border: 1.5px solid #ddd;
+    border-radius: 6px;
+    padding: 1rem 1.25rem 1.25rem;
+    margin: 1rem 0 2rem;
+    background-color: #fafafa;
+}
+
+legend {
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 0 0.5rem;
+    color: #333;
+}
+
+/* Checkbox container label */
+fieldset label {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 1.5rem;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: #222;
+    user-select: none;
+}
+
+/* Hide default checkbox */
+fieldset input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2.5px solid #555;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    background-color: white;
+}
+
+/* Checkbox checked state */
+fieldset input[type="checkbox"]:checked {
+    background-color: #007BFF;
+    border-color: #007BFF;
+}
+
+/* Checkmark (using ::after) */
+fieldset input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+/* Focus outline for accessibility */
+fieldset input[type="checkbox"]:focus-visible {
+    outline: 3px solid #80bdff;
+    outline-offset: 2px;
+}
+
+/* Hover effect */
+fieldset input[type="checkbox"]:hover {
+    border-color: #0056b3;
+}
+
+/* Wrap lines nicely if needed */
+fieldset label {
+    white-space: nowrap;
+}
+
+/* Responsive wrap for smaller screens */
+@media (max-width: 480px) {
+    fieldset label {
+        display: block;
+        margin-right: 0;
+    }
+}
+
+/* Style only the Enable Reminders checkbox */
+#notificationsEnabled {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2.5px solid #555;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    background-color: white;
+    vertical-align: middle;
+}
+
+#notificationsEnabled:checked {
+    background-color: #007BFF;
+    border-color: #007BFF;
+}
+
+#notificationsEnabled:checked::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+#notificationsEnabled:focus-visible {
+    outline: 3px solid #80bdff;
+    outline-offset: 2px;
+}
+
+#notificationsEnabled:hover {
+    border-color: #0056b3;
+}
+
+/* Align label text nicely */
+label[for="notificationsEnabled"] {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    color: #222;
+    user-select: none;
+    margin-bottom: 1rem;
+}
+
+/* Style the label for reminderTimes */
+label[for="reminderTimes"] {
+    display: block;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.3rem;
+    color: #333;
+}
+
+/* Style the reminderTimes input */
+#reminderTimes {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px 10px;
+    font-size: 1rem;
+    border: 1.8px solid #bbb;
+    border-radius: 6px;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+    margin-bottom: 1.5rem;
+    /* space below */
+}
+
+#reminderTimes:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Reminders Section Styling - Full Width */
+#reminders-section {
+    background: #f7f7f7;
+    /* Clean white background */
+    border: 2px solid #a30000;
+    /* Deep red border */
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    width: 100%;
+    /* Full container width */
+    box-sizing: border-box;
+    /* Include padding/border in width */
+    font-family: 'Open Sans', sans-serif;
+    color: #1c1c1c;
+    /* Charcoal black text */
+    box-shadow: 0 4px 6px rgba(163, 0, 0, 0.2);
+    /* Vertical spacing, no horizontal */
+}
+
+#reminders-section h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: #a30000;
+    /* Deep Red heading */
+    margin-bottom: 1rem;
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+#reminders-section label {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    user-select: none;
+    color: #1c1c1c;
+}
+
+#reminders-section input[type="checkbox"] {
+    margin-right: 0.5rem;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+#reminder-list {
+    min-height: 3rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #333;
+    max-height: 150px;
+    overflow-y: auto;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#reminder-list div {
+    padding: 0.3rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+#reminder-list div:last-child {
+    border-bottom: none;
+}
+
+#reminders-section input[type="time"] {
+    width: 130px;
+    padding: 0.35rem 0.5rem;
+    border: 1px solid #a30000;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-right: 0.75rem;
+    transition: border-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+#reminders-section input[type="time"]:focus {
+    outline: none;
+    border-color: #1c1c1c;
+    box-shadow: 0 0 5px rgba(163, 0, 0, 0.6);
+}
+
+#add-reminder-btn {
+    background-color: #a30000;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1.1rem;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#add-reminder-btn:hover,
+#add-reminder-btn:focus {
+    background-color: #7a0000;
+    outline: none;
+}
+
+@media (max-width: 480px) {
+    #reminders-section {
+        padding: 1rem;
+    }
+
+    #reminders-section input[type="time"] {
+        width: 100%;
+        margin-bottom: 0.75rem;
+    }
+
+    #add-reminder-btn {
+        width: 100%;
+    }
+}

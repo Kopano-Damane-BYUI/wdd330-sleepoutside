@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log Training - Karate Training Tracker</title>
+
+    <!-- Link to main CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="assets/images/logo.ico">
+</head>
+
+<body>
+    <div class="layout-wrapper">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="assets/images/logo_karate.jpg" alt="Karate logo" width="50" height="50">
+                <h1>Karate T. Tracker</h1>
+            </div>
+            <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+                <a href="index.html" class="nav-link">Dashboard</a>
+                <a href="log.html" class="nav-link active">Log Training</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+            </nav>
+            <button id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        </aside>
+
+        <main class="main-content">
+            <section class="card">
+                <h2>Log Training Session</h2>
+                <form id="training-log-form" novalidate>
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required>
+
+                    <label for="type">Training Type:</label>
+                    <select id="type" name="type" required>
+                        <option value="" disabled selected>-- Select --</option>
+                        <option value="kicks">Kicks</option>
+                        <option value="kata">Kata</option>
+                        <option value="sparring">Sparring</option>
+                        <option value="conditioning">Conditioning</option>
+                        <option value="other">Other</option>
+                    </select>
+
+                    <label for="duration">Duration (minutes):</label>
+                    <input type="number" id="duration" name="duration" min="1" step="1" required
+                        placeholder="Enter duration in minutes">
+
+                    <label for="notes">Notes (optional):</label>
+                    <textarea id="notes" name="notes" rows="4" placeholder="Add any notes..."></textarea>
+
+                    <button type="submit" class="btn-primary">Log Session</button>
+                </form>
+                <div id="form-message" aria-live="polite" role="alert"></div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 Karate Training Tracker | Built by Kopano Damane</p>
+    </footer>
+
+    <!-- Script for log form handling -->
+    <script type="module" src="js/log.mjs"></script>
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Karate training dashboard for tracking sessions and progress.">
+    <meta name="author" content="Kopano Damane">
+    <title>Dashboard | Karate Training Tracker</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Karate Training Tracker">
+    <meta property="og:description" content="Track karate progress, log training, and stay motivated.">
+    <meta property="og:image" content="assets/images/belt-icon.png">
+    <meta property="og:url" content="https://yourdomain.com/Final_Project/">
+
+    <link rel="icon" href="assets/images/logo.ico">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="layout-wrapper">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="assets/images/logo_karate.jpg" alt="Karate logo" width="50" height="50">
+                <h1>Karate T. Tracker</h1>
+            </div>
+            <nav class="site-nav" id="site-nav">
+                <ul>
+                    <li><a href="index.html" class="nav-link active">Dashboard</a></li>
+                    <li><a href="log.html" class="nav-link">Log Training</a></li>
+                    <li><a href="profile.html" class="nav-link">Profile</a></li>
+                </ul>
+            </nav>
+            <button id="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
+        </aside>
+
+        <main class="main-content">
+            <section class="welcome">
+                <h2>Welcome, Student!</h2>
+            </section>
+
+            <!-- Reminders UI -->
+            <section id="reminders-section">
+                <h2>Training Reminders</h2>
+                <label>
+                    <input type="checkbox" id="notifications-toggle">
+                    Enable Notifications
+                </label>
+            
+                <div id="reminder-list">No reminders set.</div>
+            
+                <input type="time" id="new-reminder-time">
+                <button id="add-reminder-btn">Add Reminder</button>
+            </section>
+
+            <section class="dashboard-grid">
+                <div class="card stat-card">
+                    <h3>Total Time Trained</h3>
+                    <p id="total-time-trained">0h 0m</p>
+                </div>
+                <div class="card stat-card">
+                    <h3>Sessions Completed</h3>
+                    <p id="sessions-completed">0</p>
+                </div>
+                <div class="card stat-card">
+                    <h3>
+                        Next Belt Progress: <span id="next-belt-name">Loading...</span>
+                    </h3>
+                    <div class="progress-bar-container" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                        aria-valuenow="0">
+                        <div id="belt-progress-bar" class="progress-bar"></div>
+                    </div>
+                    <p id="belt-progress-text">0% Complete</p>
+                </div>
+            </section>
+
+            <section class="card training-log">
+                <h3>Training Log History</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Duration</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-sessions-body">
+                        <tr>
+                            <td colspan="4">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button id="get-advice-btn">Get Training Advice</button>
+            </section>
+
+            <section id="youtube-videos" class="main-content card video-learning">
+                <h3>Video Learning</h3>
+                <!-- YouTube videos will be rendered here -->
+            </section>
+
+            <section class="motivational-quote card">
+                <h2>Motivational Quote of the Day</h2>
+                <div id="daily-quote">
+                    <!-- Quote will be injected here -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 Karate Training Tracker | Built by Kopano Damane</p>
+    </footer>
+
+    <!-- Modules -->
+    <script type="module" src="js/main.mjs"></script>
+    <script type="module" src="js/nav.mjs"></script>
+    <script type="module" src="js/dashboard.mjs"></script>
+    <script type="module" src="js/reminders.mjs"></script>
+    <script type="module" src="js/quotes.mjs"></script>
+    <script type="module" src="js/youtube.mjs"></script>
+    <script type="module" src="js/advice.mjs"></script>
+</body>
+
+</html>

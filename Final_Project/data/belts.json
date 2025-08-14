@@ -1,0 +1,58 @@
+[
+  {
+    "belt": "White",
+    "requirements": {
+      "kicks": 3,
+      "kata": 2,
+      "sparring": 1
+    }
+  },
+  {
+    "belt": "Yellow",
+    "requirements": {
+      "kicks": 5,
+      "kata": 3,
+      "sparring": 2
+    }
+  },
+  {
+    "belt": "Orange",
+    "requirements": {
+      "kicks": 8,
+      "kata": 5,
+      "sparring": 3
+    }
+  },
+  {
+    "belt": "Green",
+    "requirements": {
+      "kicks": 10,
+      "kata": 7,
+      "sparring": 5
+    }
+  },
+  {
+    "belt": "Blue",
+    "requirements": {
+      "kicks": 12,
+      "kata": 8,
+      "sparring": 6
+    }
+  },
+  {
+    "belt": "Brown",
+    "requirements": {
+      "kicks": 15,
+      "kata": 10,
+      "sparring": 8
+    }
+  },
+  {
+    "belt": "Black",
+    "requirements": {
+      "kicks": 20,
+      "kata": 12,
+      "sparring": 10
+    }
+  }
+]
