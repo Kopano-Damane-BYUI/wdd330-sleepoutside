@@ -1,162 +1,106 @@
 // js/dashboard.mjs
+// Shows the main dashboard: welcome, stats, belt progress, recent logs.
 
-// Load belts data from local JSON file
+import { loadProfile, isProfileComplete } from './profile.mjs';
+
+// If profile is missing, go fill it first
+document.addEventListener('DOMContentLoaded', () => {
+  if (!isProfileComplete()) {
+    window.location.href = 'profile.html';
+    return;
+  }
+  initDashboard();
+});
+
+// --- 1. Load belt requirements file ---
 async function fetchBelts() {
   try {
-    const response = await fetch('data/belts.json');
-    if (!response.ok) throw new Error('Failed to load belt data');
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching belts:', error);
+    const res = await fetch('data/belts.json');
+    return res.ok ? await res.json() : [];
+  } catch {
     return [];
   }
 }
 
-// Get stored training logs
+// --- 2. Read saved sessions ---
 function getTrainingLogs() {
   const logs = localStorage.getItem('trainingLogs');
   return logs ? JSON.parse(logs) : [];
 }
-
-// Calculate total time trained (minutes)
 function getTotalTime(logs) {
-  return logs.reduce((total, session) => total + (session.duration || 0), 0);
+  return logs.reduce((sum, s) => sum + (s.duration || 0), 0);
 }
-
-// Count total sessions logged
 function getSessionsCount(logs) {
   return logs.length;
 }
 
-// Calculate progress toward next belt based on completed techniques
-// For simplicity: assume each technique completed equals one session logged of that type
-// belts.json structure expected:
-// [
-//   {
-//     "belt": "White",
-//     "requirements": {
-//        "kicks": 5,
-//        "kata": 3,
-//        "sparring": 2
-//      }
-//   },
-//   ...
-// ]
+// --- 3. Work out belt progress ---
+function calculateProgress(logs, belts, currentBelt) {
+  const idx = belts.findIndex(b => b.belt === currentBelt);
+  if (idx === -1 || idx === belts.length - 1) return { progressPercent: 100, nextBelt: null };
 
-function calculateProgress(logs, belts, currentBelt = 'White') {
-  const beltIndex = belts.findIndex(b => b.belt === currentBelt);
-  if (beltIndex === -1 || beltIndex === belts.length - 1) {
-    // No next belt or last belt reached
-    return { progressPercent: 100, nextBelt: null };
-  }
+  const next = belts[idx + 1];
+  const reqs = next.requirements;
 
-  const nextBelt = belts[beltIndex + 1];
-  const requirements = nextBelt.requirements;
-
-  // Count completed techniques from logs
   const counts = {};
-  logs.forEach(log => {
-    if (!counts[log.type]) counts[log.type] = 0;
-    counts[log.type]++;
-  });
+  logs.forEach(l => counts[l.type] = (counts[l.type] || 0) + 1);
 
-  // Calculate completion percent based on requirements
-  let totalReq = 0;
-  let totalDone = 0;
-  for (const [technique, reqCount] of Object.entries(requirements)) {
-    totalReq += reqCount;
-    totalDone += Math.min(counts[technique] || 0, reqCount);
+  let done = 0, total = 0;
+  for (const [type, need] of Object.entries(reqs)) {
+    total += need;
+    done += Math.min(counts[type] || 0, need);
   }
-
-  const progressPercent = totalReq ? Math.round((totalDone / totalReq) * 100) : 0;
-  return { progressPercent, nextBelt: nextBelt.belt };
+  const percent = total ? Math.round((done / total) * 100) : 0;
+  return { progressPercent: percent, nextBelt: next.belt };
 }
 
-// Render recent sessions in a table
+// --- 4. Show last 10 sessions ---
 function renderRecentSessions(logs) {
-  const tableBody = document.getElementById('recent-sessions-body');
-  if (!tableBody) return;
+  const tbody = document.getElementById('recent-sessions-body');
+  if (!tbody) return;
 
-  // Show latest 10 sessions sorted descending by date
-  const sortedLogs = logs
+  const sorted = logs
     .slice()
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 10);
 
-  tableBody.innerHTML = ''; // clear existing
-
-  if (sortedLogs.length === 0) {
-    tableBody.innerHTML = '<tr><td colspan="4">No training sessions logged yet.</td></tr>';
-    return;
-  }
-
-  sortedLogs.forEach(session => {
-    const tr = document.createElement('tr');
-
-    const dateTd = document.createElement('td');
-    dateTd.textContent = new Date(session.date).toLocaleDateString();
-
-    const typeTd = document.createElement('td');
-    typeTd.textContent = session.type;
-
-    const durationTd = document.createElement('td');
-    durationTd.textContent = `${session.duration} min`;
-
-    const notesTd = document.createElement('td');
-    notesTd.textContent = session.notes || '-';
-
-    tr.append(dateTd, typeTd, durationTd, notesTd);
-    tableBody.appendChild(tr);
-  });
+  tbody.innerHTML = sorted.length
+    ? sorted.map(s => `
+        <tr>
+          <td>${new Date(s.date).toLocaleDateString()}</td>
+          <td>${s.type}</td>
+          <td>${s.duration} min</td>
+          <td>${s.notes || '-'}</td>
+        </tr>`).join('')
+    : '<tr><td colspan="4">No sessions yet.</td></tr>';
 }
 
-// Update dashboard stats: total time, sessions count, belt progress bar
-function updateDashboardStats(totalMinutes, sessionsCount, progressPercent, nextBelt) {
-  const totalTimeEl = document.getElementById('total-time-trained');
-  const sessionsCountEl = document.getElementById('sessions-completed');
-  const progressBarEl = document.getElementById('belt-progress-bar');
-  const progressTextEl = document.getElementById('belt-progress-text');
-  const nextBeltEl = document.getElementById('next-belt-name');
+// --- 5. Update dashboard numbers and bar ---
+function updateDashboardStats(minutes, count, percent, nextBelt) {
+  const profile = loadProfile();
+  document.querySelector('.welcome h2').textContent = `Welcome, ${profile.name}!`;
 
-  if (totalTimeEl) {
-    // Display total time in hours and minutes
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
-    totalTimeEl.textContent = `${hours}h ${minutes}m`;
-  }
+  const hrs = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  document.getElementById('total-time-trained').textContent = `${hrs}h ${mins}m`;
+  document.getElementById('sessions-completed').textContent = count;
 
-  if (sessionsCountEl) {
-    sessionsCountEl.textContent = sessionsCount;
-  }
+  const bar = document.getElementById('belt-progress-bar');
+  bar.style.width = `${percent}%`;
+  bar.setAttribute('aria-valuenow', percent);
 
-  if (progressBarEl) {
-    progressBarEl.style.width = `${progressPercent}%`;
-    progressBarEl.setAttribute('aria-valuenow', progressPercent);
-  }
-
-  if (progressTextEl) {
-    progressTextEl.textContent = `${progressPercent}% Complete`;
-  }
-
-  if (nextBeltEl) {
-    nextBeltEl.textContent = nextBelt || 'Max belt reached';
-  }
+  document.getElementById('belt-progress-text').textContent = `${percent}% Complete`;
+  document.getElementById('next-belt-name').textContent = nextBelt || 'Max belt reached';
 }
 
+// --- 6. Build the dashboard ---
 async function initDashboard() {
-  const logs = getTrainingLogs();
+  const profile = loadProfile();
+  const logs    = getTrainingLogs();
+  const belts   = await fetchBelts();
 
-  // Ideally, current belt should come from user profile, default to "White"
-  const currentBelt = 'White';
-
-  const belts = await fetchBelts();
-
-  const totalMinutes = getTotalTime(logs);
-  const sessionsCount = getSessionsCount(logs);
-  const { progressPercent, nextBelt } = calculateProgress(logs, belts, currentBelt);
+  const { progressPercent, nextBelt } = calculateProgress(logs, belts, profile.beltLevel);
 
   renderRecentSessions(logs);
-  updateDashboardStats(totalMinutes, sessionsCount, progressPercent, nextBelt);
+  updateDashboardStats(getTotalTime(logs), getSessionsCount(logs), progressPercent, nextBelt);
 }
-
-document.addEventListener('DOMContentLoaded', initDashboard);

@@ -2,27 +2,45 @@
 <html lang="en">
 
 <head>
+    <!-- Basic Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your karate training profile and preferences.">
+    <meta name="author" content="Kopano Damane">
     <title>Profile | Karate Training Tracker</title>
 
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:title" content="Karate Training Tracker - Profile">
+    <meta property="og:description" content="Update your belt level and training style preferences.">
+    <meta property="og:image" content="assets/images/belt-icon.png">
+    <meta property="og:url" content="https://yourdomain.com/Final_Project/profile.html">
+
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/logo.ico">
+
+    <!-- External Stylesheet -->
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="favicon.ico">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap"
         rel="stylesheet">
-    
-    <link rel="icon" href="assets/images/logo.ico">
 </head>
 
 <body>
+    <!-- Wrapper for Sidebar and Main Content -->
     <div class="layout-wrapper">
+
+        <!-- Sidebar Navigation -->
         <aside class="sidebar">
+            <!-- Logo and App Title -->
             <div class="logo">
                 <img src="assets/images/logo_karate.jpg" alt="Karate logo" width="50" height="50">
                 <h1>Karate T. Tracker</h1>
             </div>
+
+            <!-- Site Navigation -->
             <nav class="site-nav" id="site-nav">
                 <ul>
                     <li><a href="index.html" class="nav-link">Dashboard</a></li>
@@ -30,16 +48,27 @@
                     <li><a href="profile.html" class="nav-link active">Profile</a></li>
                 </ul>
             </nav>
+
+            <!-- Hamburger Menu (for responsive design) -->
             <button id="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
         </aside>
 
+        <!-- Main Content Area -->
         <main class="main-content">
             <section class="card">
                 <h2>User Profile</h2>
+
+                <p style="background:#ffe8e8;border:1px solid #a30000;padding:0.5rem;border-radius:4px;">
+                    Please complete your profile before you can log sessions or view progress.
+                </p>
+
+                <!-- Profile Form for User Info -->
                 <form id="profile-form">
+                    <!-- Name Input -->
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
 
+                    <!-- Belt Level Selection -->
                     <label for="beltLevel">Current Belt:</label>
                     <select id="beltLevel" name="beltLevel" required>
                         <option value="">-- Select Belt --</option>
@@ -48,10 +77,12 @@
                         <option value="Orange">Orange</option>
                         <option value="Green">Green</option>
                         <option value="Blue">Blue</option>
+                        <option value="Purple">Purple</option>
                         <option value="Brown">Brown</option>
                         <option value="Black">Black</option>
                     </select>
 
+                    <!-- Preferred Training Styles -->
                     <fieldset>
                         <legend>Preferred Training Styles:</legend>
                         <label><input type="checkbox" name="style" value="Kata"> Kata</label>
@@ -71,9 +102,9 @@
     </footer>
 
     <!-- JavaScript Modules -->
-    <script type="module" src="js/main.mjs"></script>
-    <script type="module" src="js/nav.mjs"></script>
-    <script type="module" src="js/profile.mjs"></script>
+    <script type="module" src="js/main.mjs"></script> <!-- Shared app logic -->
+    <script type="module" src="js/nav.mjs"></script> <!-- Navigation/menu behavior -->
+    <script type="module" src="js/profile.mjs"></script> <!-- Profile form handling -->
 </body>
 
 </html>

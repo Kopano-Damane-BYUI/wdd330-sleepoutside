@@ -1,82 +1,61 @@
 // js/main.mjs
+// Little helpers that run on every page.
 
-// Lazy load images with Intersection Observer
+// 1. Lazy-load images
 function lazyLoadImages() {
   const images = document.querySelectorAll('img[data-src]');
-
   if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries, obs) => {
+    const io = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const img = entry.target;
           img.src = img.dataset.src;
           img.removeAttribute('data-src');
-          obs.unobserve(img);
+          io.unobserve(img);
         }
       });
     }, { rootMargin: '100px' });
-
-    images.forEach(img => observer.observe(img));
+    images.forEach(img => io.observe(img));
   } else {
-    // Fallback for browsers without IntersectionObserver support
-    images.forEach(img => {
-      img.src = img.dataset.src;
-      img.removeAttribute('data-src');
-    });
+    images.forEach(img => { img.src = img.dataset.src; });
   }
 }
 
-// Fetch and display motivational quote of the day
+// 2. Show daily quote
 async function loadMotivationalQuote() {
-  const quoteContainer = document.querySelector('.motivational-quote blockquote');
-  const citeContainer = document.querySelector('.motivational-quote cite');
-
-  if (!quoteContainer || !citeContainer) return;
-
+  const quoteBox = document.querySelector('#daily-quote');
+  if (!quoteBox) return;
   try {
-    const response = await fetch('https://zenquotes.io/api/today'); // ZenQuotes API endpoint
-    if (!response.ok) throw new Error('Network response was not ok');
-    const data = await response.json();
-
-    // API returns an array with one object
-    if (data && data[0]) {
-      quoteContainer.textContent = `"${data[0].q}"`;
-      citeContainer.textContent = `— ${data[0].a}`;
-    }
-  } catch (error) {
-    quoteContainer.textContent = '"Consistency is the key to progress."';
-    citeContainer.textContent = '— Karate Training Tracker';
-    console.error('Failed to load quote:', error);
+    const res = await fetch('https://zenquotes.io/api/today');
+    const data = await res.json();
+    quoteBox.innerHTML = `<blockquote>"${data[0].q}"</blockquote><cite>— ${data[0].a}</cite>`;
+  } catch {
+    quoteBox.innerHTML = `<blockquote>"Keep training!"</blockquote><cite>— Karate Tracker</cite>`;
   }
 }
 
-// Highlight current page nav item
+// 3. Highlight the active menu link
 function highlightCurrentPage() {
-  const currentPath = window.location.pathname.split('/').pop();
-  const navLinks = document.querySelectorAll('.nav-link');
-
-  navLinks.forEach(link => {
-    const href = link.getAttribute('href');
-    if (href === currentPath || (href === 'index.html' && currentPath === '')) {
+  const current = window.location.pathname.split('/').pop();
+  document.querySelectorAll('.nav-link').forEach(link => {
+    if (link.getAttribute('href') === current || (link.href === 'index.html' && !current)) {
       link.classList.add('active');
     }
   });
 }
 
-// Initialize mobile menu toggle button (extra safety)
+// 4. Mobile menu toggle
 function initMobileMenuToggle() {
-  const toggleBtn = document.getElementById('menu-toggle');
+  const btn = document.getElementById('menu-toggle');
   const nav = document.getElementById('site-nav');
-
-  if (!toggleBtn || !nav) return;
-
-  toggleBtn.addEventListener('click', () => {
+  if (!btn || !nav) return;
+  btn.addEventListener('click', () => {
     nav.classList.toggle('open');
-    toggleBtn.innerHTML = nav.classList.contains('open') ? '&times;' : '&#9776;';
+    btn.innerHTML = nav.classList.contains('open') ? '×' : '☰';
   });
 }
 
-// On DOM ready
+// Run when the page loads
 document.addEventListener('DOMContentLoaded', () => {
   lazyLoadImages();
   loadMotivationalQuote();

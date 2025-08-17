@@ -1,90 +1,91 @@
 // js/log.mjs
+// Lets the user log (save) each karate training session.
 
-// Get existing training logs from localStorage or return empty array
+import { isProfileComplete } from './profile.mjs';
+
+// Send user back if profile is missing
+document.addEventListener('DOMContentLoaded', () => {
+  if (!isProfileComplete()) {
+    window.location.href = 'profile.html';
+    return;
+  }
+  initTrainingLogForm();
+});
+
+// --- 1. Read saved sessions ---
 function getTrainingLogs() {
   const logs = localStorage.getItem('trainingLogs');
   return logs ? JSON.parse(logs) : [];
 }
 
-// Save updated training logs array to localStorage
+// --- 2. Save sessions ---
 function saveTrainingLogs(logs) {
   localStorage.setItem('trainingLogs', JSON.stringify(logs));
 }
 
-// Validate form data and return error message or null if valid
+// --- 3. Check form ---
 function validateFormData(data) {
-  if (!data.date) return 'Please enter the date of training.';
-  if (!data.type) return 'Please select a training type.';
-  if (!data.duration || isNaN(data.duration) || data.duration <= 0)
-    return 'Please enter a valid duration.';
+  if (!data.date) return 'Pick a date.';
+  if (!data.type) return 'Pick a type.';
+  if (!data.duration || data.duration <= 0) return 'Enter minutes (positive).';
   return null;
 }
 
-// Reset form fields and set date to today
+// --- 4. Clear form ---
 function resetForm(form) {
   form.reset();
   const dateInput = form.querySelector('#date');
-  if (dateInput) {
-    dateInput.valueAsDate = new Date();
-  }
+  if (dateInput) dateInput.valueAsDate = new Date();
 }
 
-// Show feedback message in the form message div
+// --- 5. Show message ---
 function showMessage(message, isError = false) {
-  const messageDiv = document.getElementById('form-message');
-  if (!messageDiv) return;
-
-  messageDiv.textContent = message;
-  messageDiv.style.color = isError ? 'var(--color-error, #a30000)' : 'var(--color-primary)';
+  const box = document.getElementById('form-message');
+  if (!box) return;
+  box.textContent = message;
+  box.style.color = isError ? 'red' : 'green';
 }
 
-// Handle form submission
+// --- 6. Save session ---
 function handleFormSubmit(event) {
   event.preventDefault();
-
   const form = event.target;
-
-  const formData = {
+  const session = {
     date: form.date.value,
     type: form.type.value,
     duration: parseInt(form.duration.value, 10),
-    notes: form.notes.value.trim(),
+    notes: form.notes.value.trim()
   };
 
-  // Validate inputs
-  const error = validateFormData(formData);
+  const error = validateFormData(session);
   if (error) {
     showMessage(error, true);
     return;
   }
 
-  // Append new log to stored logs
   const logs = getTrainingLogs();
-  logs.push(formData);
+  logs.push(session);
   saveTrainingLogs(logs);
-
-  showMessage('Training session logged successfully!');
+  showMessage('Session saved!');
   resetForm(form);
 }
 
-// Initialize form listeners and set default date
+// --- 7. Start form ---
 function initTrainingLogForm() {
   const form = document.getElementById('training-log-form');
   if (!form) return;
-
-  // Set today's date as default
   const dateInput = form.querySelector('#date');
-  if (dateInput && !dateInput.value) {
-    dateInput.valueAsDate = new Date();
-  }
-
+  if (dateInput && !dateInput.value) dateInput.valueAsDate = new Date();
   form.addEventListener('submit', handleFormSubmit);
 }
 
-// Initialize on DOM ready
-document.addEventListener('DOMContentLoaded', () => {
-  initTrainingLogForm();
-});
-
-// ** EXPORTS **
-export { getTrainingLogs, saveTrainingLogs, validateFormData, resetForm, showMessage, handleFormSubmit, initTrainingLogForm };
+// --- 8. Let other files use these helpers ---
+export {
+  getTrainingLogs,
+  saveTrainingLogs,
+  validateFormData,
+  resetForm,
+  showMessage,
+  handleFormSubmit,
+  initTrainingLogForm
+};

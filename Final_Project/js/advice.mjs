@@ -1,25 +1,22 @@
 // advice.mjs
+// Gets a random tip from AdviceSlip and pops it up.
 
+// 1. Grab a tip from the web
 async function fetchAdvice() {
   try {
-    const response = await fetch('https://api.adviceslip.com/advice', {
-      cache: 'no-cache' // to avoid cached responses
-    });
-    if (!response.ok) throw new Error('Network response was not ok');
-
-    const data = await response.json();
-    alert(`💡 Advice: "${data.slip.advice}"`);
-  } catch (error) {
-    console.error('Failed to fetch advice:', error);
-    alert('Failed to get advice. Please try again later.');
+    const res = await fetch('https://api.adviceslip.com/advice', { cache: 'no-cache' });
+    if (!res.ok) throw new Error('Bad response');
+    const data = await res.json();
+    alert(`💡 Advice: ${data.slip.advice}`);
+  } catch {
+    alert('Couldn’t get advice. Try again later.');
   }
 }
 
+// 2. Hook it to the “Get Advice” button
 document.addEventListener('DOMContentLoaded', () => {
-  const adviceBtn = document.getElementById('get-advice-btn');
-  if (adviceBtn) {
-    adviceBtn.addEventListener('click', fetchAdvice);
-  }
+  const btn = document.getElementById('get-advice-btn');
+  if (btn) btn.addEventListener('click', fetchAdvice);
 });
 
 export { fetchAdvice };

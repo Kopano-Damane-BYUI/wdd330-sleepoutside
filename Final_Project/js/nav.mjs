@@ -1,28 +1,21 @@
 // js/nav.mjs
-'use strict';
+// Mobile menu toggle + highlight current page
 
-// Toggle Mobile Menu
-// js/nav.mjs
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtn = document.getElementById("menu-toggle");
-  const nav = document.getElementById("site-nav");
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('menu-toggle');
+  const nav = document.getElementById('site-nav');
+  if (!btn || !nav) return;
 
-  toggleBtn.addEventListener("click", () => {
-    nav.classList.toggle("open");
-
-    // Toggle icon between ☰ and ✕
-    toggleBtn.innerHTML = nav.classList.contains("open") ? '&times;' : '&#9776;';
+  btn.addEventListener('click', () => {
+    nav.classList.toggle('open');
+    btn.innerHTML = nav.classList.contains('open') ? '×' : '☰';
   });
 });
 
-
-// Wayfinding: Set 'active' class based on current page
-const currentPath = window.location.pathname.split('/').pop(); // e.g., "log.html"
-const navLinks = document.querySelectorAll('.nav-link');
-
-navLinks.forEach(link => {
-  const linkPath = link.getAttribute('href');
-  if (linkPath === currentPath) {
+// Highlight active link
+const page = window.location.pathname.split('/').pop();
+document.querySelectorAll('.nav-link').forEach(link => {
+  if (link.getAttribute('href') === page) {
     link.classList.add('active');
   } else {
     link.classList.remove('active');
