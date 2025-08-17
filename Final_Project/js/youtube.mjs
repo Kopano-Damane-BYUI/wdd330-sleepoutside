@@ -1,7 +1,7 @@
 //  YouTube integration for karate tutorials
 
 // Your personal Google API key for the YouTube Data API v3
-const API_KEY = 'AIzaSyDONcCz6uU44Z4zPyG1UypWp6_XX1ovf4H8';
+const API_KEY = 'AIzaSyDZJd1RIOe7FYcUOUuvj6Uc_t9lTVP1aJk';
 // Real api for demo- AIzaSyDZJd1RIOe7FYcUOUuvj6Uc_t9lTVP1aJk
 
 // Topics we want to populate with videos
