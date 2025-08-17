@@ -32,15 +32,17 @@
     <!-- Layout Wrapper: Contains Sidebar and Main Content -->
     <div class="layout-wrapper">
 
-        <!-- Sidebar Navigation -->
         <aside class="sidebar">
-            <!-- Logo and Title -->
-            <div class="logo">
-                <img src="assets/images/logo_karate.jpg" alt="Karate logo" width="50" height="50">
-                <h1>Karate T. Tracker</h1>
+            <div class="topbar">
+                <div class="logo-title">
+                    <img src="assets/images/logo_karate.jpg" alt="Karate logo" width="40" height="40">
+                    <h1>Karate T. Tracker</h1>
+                </div>
+                <div class="menu-column">
+                    <button id="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
+                </div>
             </div>
-
-            <!-- Navigation Links -->
+        
             <nav class="site-nav" id="site-nav">
                 <ul>
                     <li><a href="index.html" class="nav-link active">Dashboard</a></li>
@@ -48,9 +50,6 @@
                     <li><a href="profile.html" class="nav-link">Profile</a></li>
                 </ul>
             </nav>
-
-            <!-- Hamburger Menu Button (for mobile responsiveness) -->
-            <button id="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
         </aside>
 
         <!-- Main Content Area -->
@@ -77,7 +76,7 @@
 
                 <!-- Add New Reminder -->
                 <label for="new-reminder-time">Reminder time (24-hour): 12:23 PM</label>
-                <input type="time" id="new-reminder-time" placeholder="HH:MM">
+                <input type="time" id="new-reminder-time">
                 <button id="add-reminder-btn">Add Reminder</button>
             </section>
 
@@ -159,8 +158,7 @@
     </footer>
 
     <!-- JavaScript Modules -->
-    <script type="module" src="js/main.mjs"></script>
-    <script type="module" src="js/nav.mjs"></script>
+    <script type="module" src="js/nav.mjs"></script> <!-- Navigation/menu behavior -->
     <script type="module" src="js/dashboard.mjs"></script>
     <script type="module" src="js/reminders.mjs"></script>
     <script type="module" src="js/quotes.mjs"></script>

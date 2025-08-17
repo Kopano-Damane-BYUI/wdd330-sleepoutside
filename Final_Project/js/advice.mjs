@@ -1,7 +1,7 @@
 // advice.mjs
 // Gets a random tip from AdviceSlip and pops it up.
 
-// 1. Grab a tip from the web
+// Grab a tip from the web
 async function fetchAdvice() {
   try {
     const res = await fetch('https://api.adviceslip.com/advice', { cache: 'no-cache' });
@@ -13,7 +13,7 @@ async function fetchAdvice() {
   }
 }
 
-// 2. Hook it to the “Get Advice” button
+// Hook it to the “Get Advice” button
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('get-advice-btn');
   if (btn) btn.addEventListener('click', fetchAdvice);

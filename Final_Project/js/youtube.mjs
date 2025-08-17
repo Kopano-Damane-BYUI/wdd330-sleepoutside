@@ -1,65 +1,122 @@
-// youtube.mjs
-// Loads karate tutorial videos from YouTube.
+//  YouTube integration for karate tutorials
 
+// Your personal Google API key for the YouTube Data API v3
 const API_KEY = 'AIzaSyDONcCz6uU44Z4zPyG1UypWp6_XX1ovf4H8';
-const topics  = ['kicks', 'kata', 'sparring', 'blocks', 'punches'];
+// Real api for demo- AIzaSyDZJd1RIOe7FYcUOUuvj6Uc_t9lTVP1aJk
 
-// 1. Make one small video card
-function makeCard(video) {
+// Topics we want to populate with videos
+const categories = ['kicks', 'kata', 'sparring', 'blocks', 'punches'];
+
+//  build a single video card
+function createVideoCard(video) {
   const card = document.createElement('div');
-  card.className = 'video-preview';
+  card.classList.add('video-preview');
+
+  // Wrap everything in a link so the whole card is clickable
   card.innerHTML = `
-    <a href="https://www.youtube.com/watch?v=${video.id.videoId}" target="_blank" rel="noopener">
-      <img src="${video.snippet.thumbnails.medium.url}" alt="${video.snippet.title}">
+    <a href="https://www.youtube.com/watch?v=${video.id.videoId}" 
+       target="_blank" 
+       rel="noopener noreferrer">
+      <img src="${video.snippet.thumbnails.medium.url}" 
+           alt="${video.snippet.title}">
       <p>${video.snippet.title}</p>
       <small>${video.snippet.channelTitle}</small>
-    </a>`;
+    </a>
+  `;
+
   return card;
 }
 
-// 2. Ask YouTube for up to 4 videos on one topic
-async function fetchVideos(topic) {
+//  Fetch up to 4 tutorial videos for one topic
+async function fetchYouTubeVideos(query) {
   try {
-    const q   = encodeURIComponent(`karate ${topic} tutorial`);
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${q}&maxResults=4&key=${API_KEY}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('YouTube error');
-    return (await res.json()).items || [];
-  } catch {
-    return []; // fail silently
+    // Build the search query: “karate <query> tutorial”
+    const encodedQuery = encodeURIComponent(query);
+    const url =
+      `https://www.googleapis.com/youtube/v3/search` +
+      `?part=snippet&type=video&q=karate+${encodedQuery}+tutorial` +
+      `&maxResults=4&key=${API_KEY}`;
+
+    const response = await fetch(url);
+
+    // If the API call fails, read the error message if possible
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(
+        `YouTube API error: ${response.status} ${response.statusText} - ${
+          errorData.error?.message || ''
+        }`
+      );
+    }
+
+    const data = await response.json();
+    return data.items || [];
+  } catch (err) {
+    // Fail gracefully: return an empty array so nothing breaks visually
+    return [];
   }
 }
 
-// 3. Build one section per topic and drop it on the page
+//  Render every category section
+
 async function loadYouTubeVideos() {
-  const box = document.getElementById('youtube-videos');
-  if (!box) return;
-  box.innerHTML = '';
+  const container = document.getElementById('youtube-videos');
+  if (!container) return; // Safety check: element may not exist
 
-  let loadedAny = 0;
-  for (const topic of topics) {
-    const videos = await fetchVideos(topic);
+  // Clear any existing content
+  container.innerHTML = '';
 
-    const section = document.createElement('div');
-    section.className = 'video-category';
-    section.innerHTML = `<h4>Karate ${topic.charAt(0).toUpperCase()}${topic.slice(1)} Tutorials</h4>`;
+  let successfulCategories = 0;
+
+  // Loop through each topic and build its section
+  for (const category of categories) {
+    const videos = await fetchYouTubeVideos(category);
+
+    // Outer wrapper for this topic
+    const categorySection = document.createElement('div');
+    categorySection.classList.add('video-category');
+
+    // Heading: “Karate Kicks Tutorials”, etc.
+    const heading = document.createElement('h4');
+    heading.textContent = `Karate ${
+      category.charAt(0).toUpperCase() + category.slice(1)
+    } Tutorials`;
+    categorySection.appendChild(heading);
+
+    // Horizontal scroll container for the cards
+    const videoRow = document.createElement('div');
+    videoRow.classList.add('video-row');
 
     if (videos.length === 0) {
-      section.innerHTML += '<p>No videos found.</p>';
+      // No videos returned; show a friendly message
+      const msg = document.createElement('p');
+      msg.textContent = 'No videos available.';
+      categorySection.appendChild(msg);
     } else {
-      const row = document.createElement('div');
-      row.className = 'video-row';
-      videos.forEach(v => row.appendChild(makeCard(v)));
-      section.appendChild(row);
-      loadedAny++;
+      // Build and append each card
+      videos.forEach(video => {
+        const card = createVideoCard(video);
+        videoRow.appendChild(card);
+      });
+      categorySection.appendChild(videoRow);
+      successfulCategories++;
     }
-    box.appendChild(section);
+
+    container.appendChild(categorySection);
   }
 
-  if (!loadedAny) {
-    box.innerHTML = '<p>YouTube videos are temporarily unavailable.</p>';
+  // If every category failed, show a global fallback
+  if (successfulCategories === 0) {
+    const fallback = document.createElement('p');
+    fallback.textContent =
+      'YouTube videos are temporarily unavailable. Please check back later.';
+    container.appendChild(fallback);
   }
 }
 
-// 4. Run when the page loads
-document.addEventListener('DOMContentLoaded', () => loadYouTubeVideos().catch(() => {}));
+
+//  Start as soon as the DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Swallow any errors silently; the user will see the fallback text instead
+  loadYouTubeVideos().catch(() => {});
+});

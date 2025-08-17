@@ -10,7 +10,7 @@ const listBox       = document.getElementById('reminder-list');
 const timeInput     = document.getElementById('new-reminder-time');
 const addButton     = document.getElementById('add-reminder-btn');
 
-// ---------- 1. Show the saved reminders ----------
+// ---------- Show the saved reminders ----------
 function renderReminders(times) {
   if (!times || times.length === 0) {
     listBox.textContent = 'No reminders set.';
@@ -24,14 +24,14 @@ function renderReminders(times) {
   });
 }
 
-// ---------- 2. Load saved settings when page opens ----------
+// ---------- Load saved settings when page opens ----------
 function loadReminders() {
   const profile = loadProfile();
   onOffSwitch.checked = profile.notificationsEnabled || false;
   renderReminders(profile.reminderTimes || []);
 }
 
-// ---------- 3. Save changes ----------
+// ---------- Save changes ----------
 function saveReminders(times) {
   updateProfile({ reminderTimes: times });
 }
@@ -39,7 +39,7 @@ function saveNotifications(enabled) {
   updateProfile({ notificationsEnabled: enabled });
 }
 
-// ---------- 4. Handle clicks ----------
+// ---------- Handle clicks ----------
 onOffSwitch.addEventListener('change', e => saveNotifications(e.target.checked));
 
 addButton.addEventListener('click', () => {
@@ -61,5 +61,5 @@ addButton.addEventListener('click', () => {
   timeInput.value = ''; // clear the box
 });
 
-// ---------- 5. Start when page loads ----------
+// ---------- Start when page loads ----------
 document.addEventListener('DOMContentLoaded', loadReminders);

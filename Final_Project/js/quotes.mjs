@@ -1,24 +1,26 @@
 // js/quotes.mjs
 // Fetches one daily motivational quote and shows it on the page.
 
-// 1. Ask ZenQuotes for today’s quote
+const PROXY = 'https://api.allorigins.win/get?url=';
+const QUOTE_API = 'https://zenquotes.io/api/today';
+
 async function getQuote() {
   try {
-    // Call the API directly (works in modern browsers)
-    const res = await fetch('https://zenquotes.io/api/today');
-    if (!res.ok) throw new Error('No quote');
-    const data = await res.json();
+    const res = await fetch(PROXY + encodeURIComponent(QUOTE_API));
+    if (!res.ok) throw new Error('Network error');
+
+    const payload = await res.json();
+    const data = JSON.parse(payload.contents); // [{q, a}]
     return { text: data[0].q, author: data[0].a };
   } catch {
-    // If anything fails, give a simple fallback
-    return { text: 'Stay motivated and keep pushing forward!', author: 'Karate Tracker' };
+    return { text: 'Stay motivated and keep training!', author: 'Karate Tracker' };
   }
 }
 
-// 2. Put the quote into the page
 export async function displayDailyQuote() {
   const box = document.getElementById('daily-quote');
   if (!box) return;
+
   const quote = await getQuote();
   box.innerHTML = `
     <blockquote>"${quote.text}"</blockquote>
@@ -26,5 +28,4 @@ export async function displayDailyQuote() {
   `;
 }
 
-// 3. Run when the page loads
 document.addEventListener('DOMContentLoaded', displayDailyQuote);

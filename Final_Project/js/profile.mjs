@@ -1,25 +1,24 @@
 // js/profile.mjs
-// Stores the user’s name, belt level, styles, reminders, etc.
-// All data is saved in the browser’s **localStorage** under the key "karateUserProfile".
 
 const STORAGE_KEY = 'karateUserProfile'; // localStorage key we use to save / load
 
-// Default values when nothing has been saved yet
+// Default values when nothing has been saved yet: Name, belt color, list Prif stiles,
+// Reminder on or off, List of reminder times, and whether profile form if filled
 const defaultProfile = {
-  name: '',                 // user’s name (string)
-  beltLevel: '',            // current belt colour (string)
-  preferredStyles: [],      // array of strings like ["kicks","kata"]
-  notificationsEnabled: false, // true / false switch for reminders
-  reminderTimes: [],        // array of 24-hour strings like ["08:00","18:30"]
-  profileComplete: false    // true only after the profile form is filled
+  name: '',                 
+  beltLevel: '',            
+  preferredStyles: [],      
+  notificationsEnabled: false, 
+  reminderTimes: [],        
+  profileComplete: false    
 };
 
-// Reads the whole profile object **from localStorage**
+// Reads profile object **from localStorage**
 export function loadProfile() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) return defaultProfile;               // nothing saved yet
   try {
-    return JSON.parse(raw);                      // parse JSON stored in localStorage
+    return JSON.parse(raw);                      // whatever saved in the local storage to JSON
   } catch {
     console.warn('Corrupt profile in localStorage, resetting to default.');
     saveProfile(defaultProfile);
@@ -27,12 +26,12 @@ export function loadProfile() {
   }
 }
 
-// Saves the whole profile object **to localStorage**
+// Saves profile object **to localStorage**
 export function saveProfile(profile) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
 }
 
-// Updates only the fields you pass in **in localStorage**
+// Updates only the fields I pass in **in localStorage**
 export function updateProfile(updates) {
   const profile = loadProfile();                 // read from localStorage
   const newProfile = { ...profile, ...updates }; // merge changes
@@ -51,9 +50,9 @@ export function isProfileComplete() {
   return p.profileComplete && p.name && p.beltLevel;
 }
 
-// ------------------------------------------
+
 // Runs only on profile.html
-// ------------------------------------------
+// When profile form. Pre fill data from local-s
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('profile-form');
   if (!form) return; // skip if not on profile page

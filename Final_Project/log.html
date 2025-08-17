@@ -29,23 +29,24 @@
     <!-- Layout Container for Sidebar + Main -->
     <div class="layout-wrapper">
 
-        <!-- Sidebar Navigation -->
         <aside class="sidebar">
-            <!-- Logo and Title -->
-            <div class="logo">
-                <img src="assets/images/logo_karate.jpg" alt="Karate logo" width="50" height="50">
-                <h1>Karate T. Tracker</h1>
+            <div class="topbar">
+                <div class="logo-title">
+                    <img src="assets/images/logo_karate.jpg" alt="Karate logo" width="40" height="40">
+                    <h1>Karate T. Tracker</h1>
+                </div>
+                <div class="menu-column">
+                    <button id="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
+                </div>
             </div>
-
-            <!-- Site Navigation Links -->
-            <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
-                <a href="index.html" class="nav-link">Dashboard</a>
-                <a href="log.html" class="nav-link active">Log Training</a>
-                <a href="profile.html" class="nav-link">Profile</a>
+        
+            <nav class="site-nav" id="site-nav">
+                <ul>
+                    <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="log.html" class="nav-link active">Log Training</a></li>
+                    <li><a href="profile.html" class="nav-link">Profile</a></li>
+                </ul>
             </nav>
-
-            <!-- Hamburger Menu for Mobile -->
-            <button id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
         </aside>
 
         <!-- Main Content Area -->
@@ -96,6 +97,7 @@
     </footer>
 
     <!-- JavaScript Module for Form Logic -->
+    <script type="module" src="js/nav.mjs"></script> <!-- Navigation/menu behavior -->
     <script type="module" src="js/log.mjs"></script>
 </body>
 

@@ -1,31 +1,20 @@
 /* ========================================
    🌐 Global Resets & Root Variables
-   Purpose: Centralize design tokens and reset default browser styles
 ======================================== */
 :root {
-    /* Color palette – easily change themes from one place */
     --color-primary: #A30000;
-    /* Brand red */
     --color-dark: #1C1C1C;
-    /* Charcoal text/background */
     --color-light: #F7F7F7;
-    /* Off-white background */
     --color-white: #ffffff;
-    /* Pure white for cards */
     --color-gray: #666;
-    /* Muted text */
     --color-border: #e0e0e0;
-    /* Subtle borders */
 
-    /* Typography – swap fonts here and they update everywhere */
     --font-heading: 'Montserrat', sans-serif;
     --font-body: 'Open Sans', sans-serif;
 
-    /* Timing – consistent motion design */
     --transition-fast: 0.3s ease;
 }
 
-/* Universal box-sizing reset to make width/height calculations predictable */
 *,
 *::before,
 *::after {
@@ -34,7 +23,6 @@
     padding: 0;
 }
 
-/* Base body styles */
 body {
     font-family: var(--font-body);
     background-color: var(--color-light);
@@ -42,20 +30,16 @@ body {
     line-height: 1.6;
 }
 
-/* Prevent horizontal scroll caused by wide elements */
-html,
-body {
-    overflow-x: hidden;
+html, body {
+  overflow-x: hidden;
 }
 
-/* Reusable utility class for section titles */
 .welcome {
     border-bottom: 2px solid var(--color-primary);
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
 }
 
-/* Make images responsive by default */
 img {
     display: block;
     max-width: 100%;
@@ -64,8 +48,6 @@ img {
 
 /* ========================================
    🧱 Layout Structure
-   Mobile-first flex layout; sidebar becomes
-   a top bar on small screens
 ======================================== */
 .layout-wrapper {
     display: flex;
@@ -84,7 +66,6 @@ img {
     position: relative;
 }
 
-/* Logo area inside sidebar */
 .sidebar .logo {
     display: flex;
     flex-direction: row;
@@ -98,7 +79,6 @@ img {
     color: var(--color-white);
 }
 
-/* Hamburger button – hidden on desktop */
 #menu-toggle {
     background: none;
     border: none;
@@ -107,10 +87,9 @@ img {
     cursor: pointer;
 }
 
-/* Collapsible navigation menu */
+/* Site nav */
 .site-nav {
     display: none;
-    /* hidden by default on mobile */
     flex-direction: column;
     background-color: var(--color-dark);
     width: 100%;
@@ -119,7 +98,6 @@ img {
 
 .site-nav.open {
     display: flex;
-    /* shown via JS toggle */
 }
 
 .site-nav ul {
@@ -129,7 +107,6 @@ img {
     gap: 0.5rem;
 }
 
-/* Navigation links styling */
 .nav-link {
     color: var(--color-white);
     text-decoration: none;
@@ -149,7 +126,6 @@ img {
     border-left: 4px solid var(--color-white);
 }
 
-/* Mobile adjustments for small screens */
 @media (max-width: 767px) {
     .site-nav {
         display: none;
@@ -170,14 +146,13 @@ img {
     #menu-toggle {
         position: absolute;
         top: 1.2rem;
-        right: 1.2rem;
+        right: -8.2rem;
         font-size: 1.5rem;
     }
 }
 
 /* ========================================
    📄 Main Content
-   Padding and spacing for main area
 ======================================== */
 .main-content {
     padding: 1.5rem;
@@ -194,12 +169,10 @@ img {
 
 /* ========================================
    📊 Dashboard Cards
-   Stats are displayed in cards that lift on hover
 ======================================== */
 .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr;
-    /* single column on mobile */
     gap: 1rem;
 }
 
@@ -213,7 +186,6 @@ img {
 
 .card:hover {
     transform: translateY(-2px);
-    /* subtle lift effect */
 }
 
 .stat-card h3 {
@@ -227,7 +199,6 @@ img {
     font-weight: bold;
 }
 
-/* Simple progress bar component */
 .progress-bar {
     height: 16px;
     background-color: #ddd;
@@ -244,7 +215,6 @@ img {
 
 /* ========================================
    🧾 Training Log Table
-   Clean table for workout history
 ======================================== */
 .training-log table {
     width: 100%;
@@ -266,8 +236,7 @@ img {
 }
 
 /* ========================================
-   📺 Video Learning Section
-   Horizontally-scrollable video cards
+   📺 Video Learning Section (Updated)
 ======================================== */
 #youtube-videos section {
     margin-bottom: 2rem;
@@ -300,10 +269,10 @@ img {
     /* Chrome, Safari, Edge */
 }
 
-/* Individual video card */
+/* Video card styling */
 #youtube-videos .video-preview {
     flex: 0 0 240px;
-    /* don’t grow/shrink; fixed width */
+    /* fixed width */
     background-color: var(--color-white);
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -346,7 +315,6 @@ img {
 
 /* ========================================
    💬 Quote Section
-   Displays an inspirational quote
 ======================================== */
 .motivational-quote blockquote {
     font-style: italic;
@@ -366,7 +334,6 @@ img {
 
 /* ========================================
    📱 Responsive Layout (Desktop)
-   Sidebar becomes fixed column on ≥768px
 ======================================== */
 @media (min-width: 768px) {
     .layout-wrapper {
@@ -383,17 +350,14 @@ img {
         background-color: var(--color-dark);
         position: sticky;
         top: 0;
-        /* keeps sidebar in view while scrolling */
     }
 
     #menu-toggle {
         display: none;
-        /* hamburger not needed on desktop */
     }
 
     .site-nav {
         display: flex !important;
-        /* always visible on desktop */
         margin-top: 2rem;
     }
 
@@ -403,16 +367,14 @@ img {
 
     .main-content {
         flex: 1;
-        /* take remaining horizontal space */
         padding: 2rem;
     }
 
-    /* Three-column dashboard on desktop */
     .dashboard-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 
-    /* Ensure video row stays horizontal on desktop */
+    /* Override older video-row to be horizontal with scroll on desktop too */
     #youtube-videos .video-row {
         flex-wrap: nowrap;
     }
@@ -424,12 +386,13 @@ img {
 
 /* ========================================
    🦽 Accessibility
-   Respects user's motion preferences
 ======================================== */
 @media (prefers-reduced-motion: reduce) {
 
     *,
+
     *::before,
+
     *::after {
         animation: none !important;
         transition: none !important;
@@ -438,7 +401,6 @@ img {
 
 /* ========================================
    👣 Footer
-   Simple sticky footer
 ======================================== */
 .site-footer {
     background-color: var(--color-dark);
@@ -450,10 +412,8 @@ img {
 
 /* ==================================
    LOG FORM
-   Styles for the training-log entry form
 =====================================*/
 
-/* Generic progress bar used in forms */
 .progress-bar-container {
     width: 100%;
     background-color: #ddd;
@@ -471,7 +431,6 @@ img {
     border-radius: 10px;
 }
 
-/* Table styles reused in the form area */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -490,7 +449,7 @@ table thead {
     color: white;
 }
 
-/* Ensure readable fonts & touch-friendly size for form controls */
+/* Ensure readable fonts & touch-friendly size */
 input,
 select,
 textarea,
@@ -510,7 +469,7 @@ button:focus {
     outline-offset: 2px;
 }
 
-/* Vertical rhythm for form */
+/* Ensure form elements stack nicely with separation */
 #training-log-form {
     display: flex;
     flex-direction: column;
@@ -525,9 +484,7 @@ button:focus {
     width: 100%;
 }
 
-/* Submit button styling */
-button,
-#training-log-form button[type="submit"] {
+button, #training-log-form button[type="submit"] {
     background-color: var(--color-primary);
     color: var(--color-white);
     border: none;
@@ -543,9 +500,7 @@ button,
 
 /* ========  ========== */
 
-/* Custom checkbox group inside fieldsets
-   Used for selecting muscle groups etc.
-*/
+/* Style the fieldset and legend */
 fieldset {
     border: 1.5px solid #ddd;
     border-radius: 6px;
@@ -561,7 +516,7 @@ legend {
     color: #333;
 }
 
-/* Checkbox label layout */
+/* Checkbox container label */
 fieldset label {
     display: inline-flex;
     align-items: center;
@@ -571,11 +526,9 @@ fieldset label {
     font-weight: 500;
     color: #222;
     user-select: none;
-    white-space: nowrap;
-    /* keep checkbox & text together */
 }
 
-/* Hide default checkbox and draw custom one */
+/* Hide default checkbox */
 fieldset input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
@@ -591,13 +544,13 @@ fieldset input[type="checkbox"] {
     background-color: white;
 }
 
-/* Checked state */
+/* Checkbox checked state */
 fieldset input[type="checkbox"]:checked {
     background-color: #007BFF;
     border-color: #007BFF;
 }
 
-/* Checkmark drawn with borders */
+/* Checkmark (using ::after) */
 fieldset input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
@@ -610,17 +563,23 @@ fieldset input[type="checkbox"]:checked::after {
     transform: rotate(45deg);
 }
 
-/* Focus outline for keyboard users */
+/* Focus outline for accessibility */
 fieldset input[type="checkbox"]:focus-visible {
     outline: 3px solid #80bdff;
     outline-offset: 2px;
 }
 
+/* Hover effect */
 fieldset input[type="checkbox"]:hover {
     border-color: #0056b3;
 }
 
-/* Responsive wrap for tiny screens */
+/* Wrap lines nicely if needed */
+fieldset label {
+    white-space: nowrap;
+}
+
+/* Responsive wrap for smaller screens */
 @media (max-width: 480px) {
     fieldset label {
         display: block;
@@ -628,9 +587,7 @@ fieldset input[type="checkbox"]:hover {
     }
 }
 
-/* Custom styling for the “Enable Reminders” checkbox
-   Separate from muscle-group checkboxes
-*/
+/* Style only the Enable Reminders checkbox */
 #notificationsEnabled {
     appearance: none;
     -webkit-appearance: none;
@@ -673,7 +630,7 @@ fieldset input[type="checkbox"]:hover {
     border-color: #0056b3;
 }
 
-/* Align label text with checkbox */
+/* Align label text nicely */
 label[for="notificationsEnabled"] {
     display: inline-flex;
     align-items: center;
@@ -684,7 +641,7 @@ label[for="notificationsEnabled"] {
     margin-bottom: 1rem;
 }
 
-/* Time input for reminder selection */
+/* Style the label for reminderTimes */
 label[for="reminderTimes"] {
     display: block;
     font-weight: 600;
@@ -693,6 +650,7 @@ label[for="reminderTimes"] {
     color: #333;
 }
 
+/* Style the reminderTimes input */
 #reminderTimes {
     width: 100%;
     max-width: 300px;
@@ -703,6 +661,7 @@ label[for="reminderTimes"] {
     transition: border-color 0.2s ease;
     box-sizing: border-box;
     margin-bottom: 1.5rem;
+    /* space below */
 }
 
 #reminderTimes:focus {
@@ -711,29 +670,35 @@ label[for="reminderTimes"] {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Reminders Section Styling – full-width card */
+/* Reminders Section Styling - Full Width */
 #reminders-section {
     background: #f7f7f7;
+    /* Clean white background */
     border: 2px solid #a30000;
+    /* Deep red border */
     border-radius: 8px;
     padding: 1.5rem 2rem;
     width: 100%;
+    /* Full container width */
     box-sizing: border-box;
+    /* Include padding/border in width */
     font-family: 'Open Sans', sans-serif;
     color: #1c1c1c;
+    /* Charcoal black text */
     box-shadow: 0 4px 6px rgba(163, 0, 0, 0.2);
+    /* Vertical spacing, no horizontal */
 }
 
 #reminders-section h2 {
     font-family: 'Montserrat', sans-serif;
     color: #a30000;
+    /* Deep Red heading */
     margin-bottom: 1rem;
     font-weight: 700;
     font-size: 1.5rem;
     text-align: center;
 }
 
-/* Layout for Enable Reminders checkbox */
 #reminders-section label {
     display: flex;
     align-items: center;
@@ -752,7 +717,6 @@ label[for="reminderTimes"] {
     cursor: pointer;
 }
 
-/* Scrollable list of saved reminders */
 #reminder-list {
     min-height: 3rem;
     margin-bottom: 1rem;
@@ -776,7 +740,6 @@ label[for="reminderTimes"] {
     border-bottom: none;
 }
 
-/* Time input inside reminders section */
 #reminders-section input[type="time"] {
     width: 130px;
     padding: 0.35rem 0.5rem;
@@ -794,7 +757,6 @@ label[for="reminderTimes"] {
     box-shadow: 0 0 5px rgba(163, 0, 0, 0.6);
 }
 
-/* Add Reminder button */
 #add-reminder-btn {
     background-color: #a30000;
     color: #fff;
@@ -813,7 +775,6 @@ label[for="reminderTimes"] {
     outline: none;
 }
 
-/* Make reminders section stack on very small screens */
 @media (max-width: 480px) {
     #reminders-section {
         padding: 1rem;
@@ -827,4 +788,34 @@ label[for="reminderTimes"] {
     #add-reminder-btn {
         width: 100%;
     }
+}
+
+/* ===============================
+   ✅ Topbar Layout (Mobile Only)
+================================= */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-dark);
+    padding: 0.75rem 1rem;
+    width: 100%;
+}
+
+.logo-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo-title img {
+    width: 40px;
+    height: 40px;
+}
+
+.topbar h1 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--color-white);
+    margin: 0;
 }
